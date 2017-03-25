@@ -221,6 +221,22 @@ public class User implements Serializable {
         return avatar;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return logicId == user.logicId;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return logicId;
+    }
+
     private User(Builder builder) {
         logicId = builder.logicId;
         schoolId = builder.schoolId;

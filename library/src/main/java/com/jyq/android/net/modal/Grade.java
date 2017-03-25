@@ -76,6 +76,21 @@ public class Grade implements Serializable {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Grade grade = (Grade) o;
+
+        return id == grade.id;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return id;
+    }
 
     public static final class Builder {
         private int id;
