@@ -29,7 +29,10 @@ import com.jyq.android.net.modal.Baby;
 import com.jyq.android.net.modal.BaseResponse;
 import com.jyq.android.net.modal.CommonId;
 import com.jyq.android.net.modal.Grade;
+import com.jyq.android.net.modal.User;
 
+import java.security.PublicKey;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +71,31 @@ public class GradeService extends BaseService{
 
         @POST("/api/chat/validata-groupid")
         Observable<BaseResponse<Void>> validateTeam(@Body Map map);
-    }
 
+        @POST("/api/class/user-list")
+        Observable<BaseResponse<List<User>>> fetchGradeUserList(@Body Map map);
+    }
+    public final class RoleRange{
+        public static final int ROLE_PARENT=1;
+        public static final int ROLE_TEACHER=2;
+        public static final int ROLE_BABY=4;
+    }
+    public static Observable<List<User>> fetchGradeUsers(int gradeId,int roleRange){
+        HashMap map=new HashMap();
+        map.put("class_id",gradeId);
+        List<String> role=new ArrayList<>();
+        if ((roleRange&RoleRange.ROLE_BABY)!=0){
+            role.add("baby");
+        }
+        if (((roleRange&RoleRange.ROLE_PARENT))!=0){
+            role.add("parent");
+        }
+        if (((roleRange&RoleRange.ROLE_TEACHER))!=0){
+            role.add("teacher");
+        }
+        map.put("role",role);
+        return toSubscribe(HttpKit.getInstance().getService(Api.class).fetchGradeUserList(map));
+    }
 
     public static Observable<Void> validateTeam(String teamId){
         HashMap map=new HashMap();
