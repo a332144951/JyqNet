@@ -23,8 +23,11 @@ package com.jyq.android.net.service;
  */
 
 import android.text.TextUtils;
+import android.util.Log;
 
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.jyq.android.net.HttpKit;
 import com.jyq.android.net.cache.HttpCache;
 import com.jyq.android.net.modal.Address;
@@ -32,6 +35,7 @@ import com.jyq.android.net.modal.BaseResponse;
 import com.jyq.android.net.modal.Contacts;
 import com.jyq.android.net.modal.User;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +44,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
+import rx.functions.Action0;
 import rx.functions.Action1;
 import rx.functions.Func1;
 
@@ -119,8 +124,19 @@ public class UserService extends BaseService{
 
     }
 
+    private static final String TAG = "UserService";
     public static Observable<Contacts> getUserContacts(){
-      return toSubscribe(  HttpKit.getInstance().getService(Api.class).getContacts());
+      return toSubscribe(  HttpKit.getInstance().getService(Api.class).getContacts())
+              .doOnNext(new Action1<Contacts>() {
+                  @Override
+                  public void call(Contacts contacts) {
+                        ArrayList<User> cache=Lists.newArrayList(contacts.masters);
+                      cache.addAll(contacts.parents);
+                      cache.addAll(contacts.teachers);
+                      HttpCache.getInstance().updateContacts(cache);
+                  }
+              })
+              ;
     }
     public static Observable<Void> uploadLocation(double x,double y) {
         Map map = new HashMap();

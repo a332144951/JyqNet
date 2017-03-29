@@ -23,11 +23,15 @@ package com.jyq.android.net.cache;
            佛祖保佑       永无BUG
  */
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.jyq.android.common.cache.CacheKit;
 import com.jyq.android.common.cache.CommonCache;
 import com.jyq.android.net.modal.ImInfo;
 import com.jyq.android.net.modal.User;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2017/3/20.
@@ -47,6 +51,7 @@ public class HttpCache {
     private final String KEY_CACHE_USER = "cache_user";
     private final String KEY_CACHE_IM_ACCOUNT="cache_im_account";
     private final String KEY_CACHE_APP_HOST="cache_app_host";
+    private final String KEY_CACHE_CONTACTS="cache_contacts";
     public String getAppHost(){
         return CacheKit.getInstance().getInternalCache().getAsString(KEY_CACHE_APP_HOST);
     }
@@ -74,9 +79,17 @@ public class HttpCache {
     public void updateImageHost(String host) {
         CommonCache.getInstance().updateImageHost(host);
     }
+    public void updateContacts(ArrayList<User> users){
+        CacheKit.getInstance().getExternalCache().put(KEY_CACHE_CONTACTS,new Gson().toJson(users));
+    }
+    public ArrayList<User> getContacts(){
+        return new Gson().fromJson(CacheKit.getInstance().getExternalCache().getAsJSONArray(KEY_CACHE_CONTACTS), new TypeToken<ArrayList<User>>(){}.getType());
+    }
+
 
     public void clear() {
         CacheKit.getInstance().getInternalCache().remove(KEY_CACHE_USER);
     }
+
 
 }

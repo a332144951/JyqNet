@@ -40,4 +40,12 @@ public class Contacts {
     @SerializedName("parent")
     public List<User> parents;
 
+    @Override
+    public String toString() {
+        return "Contacts{" +
+                "masters=" + masters +
+                ", teachers=" + teachers +
+                ", parents=" + parents +
+                '}';
+    }
 }
