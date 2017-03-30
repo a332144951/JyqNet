@@ -61,6 +61,24 @@ public class User implements Serializable {
         }
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        if (logicId != user.logicId) return false;
+        return role == user.role;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = logicId;
+        result = 31 * result + (role != null ? role.hashCode() : 0);
+        return result;
+    }
 
     public User() {
     }
@@ -222,22 +240,6 @@ public class User implements Serializable {
 
     public String getAvatarKey() {
         return avatar;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        User user = (User) o;
-
-        return logicId == user.logicId;
-
-    }
-
-    @Override
-    public int hashCode() {
-        return logicId;
     }
 
     private User(Builder builder) {
