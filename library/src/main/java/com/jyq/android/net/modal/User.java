@@ -25,10 +25,8 @@ package com.jyq.android.net.modal;
 
 import android.support.annotation.StringDef;
 
-import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.jyq.android.net.cache.HttpCache;
-import com.jyq.android.net.gson.UserRoleAdapter;
 import com.jyq.android.net.upload.image.UploadImageUtils;
 
 import java.io.Serializable;

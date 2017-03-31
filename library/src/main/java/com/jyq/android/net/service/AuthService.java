@@ -75,8 +75,8 @@ public class AuthService extends BaseService {
         return toSubscribe(HttpKit.getInstance().getService(AuthApi.class).register(map));
     }
 
-    public static Observable<Boolean> login(String phone, String password, User.UserType type) {
-        ImmutableMap map = ImmutableMap.of("login_id", phone, "password", password, "role", type.getType());
+    public static Observable<Boolean> login(String phone, String password, @User.UserRole String type) {
+        ImmutableMap map = ImmutableMap.of("login_id", phone, "password", password, "role", type);
         return toSubscribe(HttpKit.getInstance().getService(AuthApi.class).login(map))
                 .doOnNext(new Action1<AppAuth>() {
                     @Override

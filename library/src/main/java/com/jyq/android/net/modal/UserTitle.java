@@ -36,7 +36,7 @@ public class UserTitle {
     @SerializedName("text")
     private String titleName;
     @SerializedName("role")
-    public User.UserType userType;
+    public @User.UserRole String userType;
     private UserTitle() {
         //no instance
     }
