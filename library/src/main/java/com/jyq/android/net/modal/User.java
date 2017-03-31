@@ -23,6 +23,8 @@ package com.jyq.android.net.modal;
  */
 
 
+import android.support.annotation.StringDef;
+
 import com.google.gson.annotations.JsonAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.jyq.android.net.cache.HttpCache;
@@ -35,32 +37,12 @@ import java.io.Serializable;
  * Created by Administrator on 2016/8/31.
  */
 public class User implements Serializable {
-    public enum UserType {
-        UNKNOWN("unknown"),
-        MASTER("master"),
-        TEACHER("teacher"),
-        PARENT("parent"),;
-        private String type;
 
-        UserType(String parent) {
-            this.type = parent;
-        }
-
-        public String getType() {
-            return type;
-        }
-
-       public static UserType TypeOf(String typeName) {
-            UserType[] types = values();
-            for (UserType type : types) {
-                if (type.type.equals(typeName)) {
-                    return type;
-                }
-            }
-            return UNKNOWN;
-        }
-    }
-
+    public final static String ROLE_MASTER = "master";
+    public final static String ROLE_TEACHER = "teacher";
+    public final static String ROLE_PARENT = "parent";
+    @StringDef({ROLE_MASTER,ROLE_PARENT,ROLE_TEACHER})
+    public @interface UserRole{}
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,9 +66,8 @@ public class User implements Serializable {
     }
     @SerializedName(value = "user_role_id", alternate = {"id"})
     public int logicId;
-    @JsonAdapter(UserRoleAdapter.class)
     @SerializedName(value = "role", alternate = {"user_role"})
-    public UserType role;
+    public @UserRole String role;
     @SerializedName("score")
     public int score;
     @SerializedName("name")
@@ -274,7 +255,7 @@ public class User implements Serializable {
         private int logicId;
         private int schoolId;
         private int classId;
-        private UserType role;
+        private @UserRole String role;
         private int titleId;
         private String titleName;
         private String IMToken;
@@ -345,7 +326,7 @@ public class User implements Serializable {
             return this;
         }
 
-        public Builder role(UserType val) {
+        public Builder role(@UserRole String val) {
             role = val;
             return this;
         }
