@@ -49,7 +49,7 @@ public class User implements Serializable {
         User user = (User) o;
 
         if (logicId != user.logicId) return false;
-        return role == user.role;
+        return role .equals(user.role);
 
     }
 
