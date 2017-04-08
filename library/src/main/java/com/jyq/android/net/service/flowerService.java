@@ -35,7 +35,8 @@ public class flowerService extends BaseService {
         Observable<BaseResponse<Void>> addReply(@Body Map map);
         @POST("/api/baby-rate/delete-baby-rate")
         Observable<BaseResponse<Void>> deleteReply(@Body Map map);
-
+        @POST("/api/baby-rate/rate-add-score")
+        Observable<BaseResponse<Void>> addScore(@Body Map map);
 
         @POST("/api/flower/inc")
         Observable<BaseResponse<Void>> uploadFlower(@Body Map map);
@@ -104,5 +105,10 @@ public class flowerService extends BaseService {
         map.put("rate_id",rate_id);
         return   toSubscribe(HttpKit.getInstance().getService(Api.class).deleteReply(map));
     }
-
+    public static Observable<Void> addScore(int rate_id,int score) {
+        Map map = new HashMap();
+        map.put("rate_id",rate_id);
+        map.put("score",score);
+        return   toSubscribe(HttpKit.getInstance().getService(Api.class).addScore(map));
+    }
 }
