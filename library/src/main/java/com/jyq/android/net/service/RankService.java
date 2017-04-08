@@ -25,6 +25,8 @@ public class RankService extends BaseService {
         Observable<BaseResponse<List<Rank>>> getRankOfTeacher();
         @POST("/api/top/class-parent")
         Observable<BaseResponse<List<Rank>>> getRankOfParentInClass(@Body Map map);
+        @POST("/api/top/class-parent")
+        Observable<BaseResponse<List<Rank>>> getRankOfParentInClassNoparam();
         @POST("/api/score-log/history")
         Observable<BaseResponse<List<RankDetail>>> getScoreDetail(@Body Map map);
         @POST("/api/top/global-master")
@@ -50,6 +52,9 @@ public class RankService extends BaseService {
         Map map = new HashMap();
         map.put("class_id", classId);
         return   toSubscribe(HttpKit.getInstance().getService(Api.class).getRankOfParentInClass(map));
+    }
+    public static Observable<List<Rank>> getRankOfParentInClass() {
+        return   toSubscribe(HttpKit.getInstance().getService(Api.class).getRankOfParentInClassNoparam());
     }
     public static Observable<RankOfMaster> getRankOfMasterCountry() {
         return   toSubscribe(HttpKit.getInstance().getService(Api.class).getRankOfMasterCountry());

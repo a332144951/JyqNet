@@ -79,6 +79,7 @@ public class SchoolService extends BaseService{
     public static Observable<Share> getShareStudentUrl(){
         return toSubscribe(HttpKit.getInstance().getService(Api.class).getShareStudentUrl());
     }
+
     public static Observable<Void> postShareTeacher(int shareId){
         Map map=new HashMap();
         map.put("share_id",shareId);

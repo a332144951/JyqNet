@@ -17,6 +17,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 import rx.Observable;
+import rx.functions.Action1;
 
 /**
  * Author : GuoL
@@ -37,7 +38,8 @@ public class UserDetailService extends  BaseService{
         Observable<BaseResponse<TeacherAssess>> getPatentAssess(@Body Map map);
         @POST("/api/teacher-rate/add")
         Observable<BaseResponse<Void>> addTeacherAssess(@Body Map map);
-
+        @POST("/api/interview/send")
+        Observable<BaseResponse<Void>> sendInvite(@Body Map map);
 
     }
     public static Observable<List <Area>> getAreaList(int id) {
@@ -85,5 +87,29 @@ public class UserDetailService extends  BaseService{
         map.put("rate3",rate3);
         return   toSubscribe(HttpKit.getInstance().getService(UserDetailService.Api.class).addTeacherAssess(map));
     }
-
+    public static Observable<Void> updateInfo(String type,String value) {
+        Map map = new HashMap();
+        if(type.equals("address")){
+            String[] temp=value.split("@");
+            map.put("province",temp[0]);
+            map.put("city",temp[1]);
+            map.put("area",temp[2]);
+            map.put("street",temp[3]);
+            map.put("addr_text",temp[4]);
+        }else{
+            map.put(type,value);
+        }
+        return   toSubscribe(HttpKit.getInstance().getService(UserDetailService.Api.class).updateUserInfo(map))
+                .doOnNext(new Action1<Void>() {
+                    @Override
+                    public void call(Void aVoid) {
+                        AuthService.userInfo().subscribe();
+                    }
+                });
+    }
+    public static Observable<Void> sendInvite(int user_role_id) {
+        Map map = new HashMap();
+        map.put("user_role_id",user_role_id);
+        return   toSubscribe(HttpKit.getInstance().getService(UserDetailService.Api.class).sendInvite(map));
+    }
 }

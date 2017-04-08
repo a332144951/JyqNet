@@ -29,7 +29,8 @@ public class SignInService extends BaseService{
         Observable<BaseResponse<SignGrade>> getSiginPersonList(@Body Map classId);
         @POST("/api/checkin/month")
         Observable<BaseResponse<List<SignDetail>>> getSiginPersonDeatil(@Body Map map);
-
+        @POST("/api/checkin/checkin")
+        Observable<BaseResponse<Void>> getUpdateSignIn(@Body Map map);
         @POST("/api/checkin/checkin")
         Observable<BaseResponse<Void>> addSignIn(@Body Map map);
     }
@@ -62,5 +63,15 @@ public class SignInService extends BaseService{
         map.put("baby_id", baby_id);
         map.put("month", month);
         return   toSubscribe(HttpKit.getInstance().getService(SignInService.Api.class).getSiginPersonDeatil(map));
+    }
+    /*
+    更改人员签到
+     */
+    public static Observable<Void> UpdateSignIn(int baby_id,String checkin_time,int edit_status) {
+        Map map = new HashMap();
+        map.put("checkin_time", checkin_time);
+        map.put("baby_id", baby_id);
+        map.put("edit_status", edit_status);
+        return   toSubscribe(HttpKit.getInstance().getService(SignInService.Api.class).getUpdateSignIn(map));
     }
 }
