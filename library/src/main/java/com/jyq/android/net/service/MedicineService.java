@@ -37,9 +37,10 @@ public class MedicineService extends BaseService{
         return toSubscribe(HttpKit.getInstance().getService(MedicineService.Api.class).getClassList());
     }
     //获取喂药列表
-    public static Observable<List<Medicine>> getMedicineListByClass(int stat) {
+    public static Observable<List<Medicine>> getMedicineListByClass(int classId,int stat) {
         Map map = new HashMap();
         map.put("stat", stat);
+        map.put("class_id", classId);
         return toSubscribe(HttpKit.getInstance().getService(MedicineService.Api.class).getMedicineListByClass(map));
     }
     //创建喂药
