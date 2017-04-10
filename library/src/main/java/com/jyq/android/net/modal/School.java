@@ -24,13 +24,14 @@ package com.jyq.android.net.modal;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/9/2.
  */
-public class School {
+public class School  implements Serializable{
     public int id;
     @SerializedName("name")
     public String name;
