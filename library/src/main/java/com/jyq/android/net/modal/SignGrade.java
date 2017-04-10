@@ -27,9 +27,9 @@ public class SignGrade {
 
     public class SignList{
         @SerializedName("count")
-        private int totalNum;
+        public int totalNum;
         @SerializedName("list")
-        private List<Baby> babyList;
+        public List<Baby> babyList;
     }
 
 }
